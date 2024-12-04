@@ -1,13 +1,11 @@
-package qianz.westcloud;
+package qianz.userservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WestcloudApplication {
-
+public class UserServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(WestcloudApplication.class, args);
+        SpringApplication.run(UserServiceApplication.class, args);
     }
-
 }
