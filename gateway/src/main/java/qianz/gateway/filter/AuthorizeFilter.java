@@ -28,10 +28,10 @@ public class AuthorizeFilter implements GlobalFilter {
             return chain.filter(exchange);
         }
         // 1.获取请求参数
-        MultiValueMap<String,String> params = request.getQueryParams();
+        MultiValueMap<String,String> headers = request.getHeaders();
         // 2.获取参数中的 authorization 参数
-        String auth=params.getFirst("authorization");
-        // TODO 3.判断参数值是否正确
+        String auth = headers.getFirst("Authorization");
+        // 3.判断参数值是否正确
         if(JwtUtil.verifyToken(auth)){
             // 4.是，放行
             return chain.filter(exchange);
@@ -40,7 +40,7 @@ public class AuthorizeFilter implements GlobalFilter {
         //5.1.设置状态码
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         //5.2.拦截请求
-        log.info("拦截401请求：auth={}", auth);
+        log.info("拦截401请求：auth = {}", auth);
         return exchange.getResponse().setComplete(); // 表示响应直接完结
     }
 }

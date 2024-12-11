@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import java.io.Serializable;
+
 /**
 * 统一响应结果类
 * */
 @Data
 @NoArgsConstructor
-public class Result<T>{
+public class Result<T> implements Serializable {
     private Base base;
     private T data;
 

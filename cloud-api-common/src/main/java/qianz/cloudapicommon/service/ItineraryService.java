@@ -7,6 +7,7 @@ import java.util.Date;
 /**
  * ItineraryService
  * */
+
 public interface ItineraryService {
     Result<?> createItinerary(Long destinationId, Date time);
 }

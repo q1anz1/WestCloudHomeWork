@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import qianz.cloudapicommon.exception.ParamInvalidException;
+
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -37,6 +39,10 @@ public class JwtUtil {
      * @return 是否合法
      * */
     public static boolean verifyToken(String token) {
+        if (token == null) throw new ParamInvalidException("JWT令牌为空");
+        if (token.startsWith("bearer ")) {
+            token = token.substring(7);
+        }
         Claims claims = getTokenClaims(token);
         if (claims == null) return false; // 解析出错
         if (claims.getExpiration().before(new Date())) return false; // 令牌过期

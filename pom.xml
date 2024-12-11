@@ -26,6 +26,7 @@
         <module>itineraryservice</module>
         <module>gateway</module>
         <module>cloud-api-common</module>
+        <module>destinationservice</module>
     </modules>
     <scm>
         <connection/>
@@ -158,11 +159,6 @@
                 <artifactId>spring-test</artifactId>
                 <version>6.2.0</version>
             </dependency>
-            <dependency>
-                <groupId>io.github.openfeign</groupId>
-                <artifactId>feign-httpclient</artifactId>
-                <version> 13.2.1</version>
-            </dependency>
             <!--网关依赖-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -185,9 +181,14 @@
                 <version>0.0.1</version>
             </dependency>
             <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-dubbo</artifactId>
-                <version> 2021.1</version>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-openfeign</artifactId>
+                <version> 4.1.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-httpclient</artifactId>
+                <version> 13.2.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

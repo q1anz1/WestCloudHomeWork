@@ -19,7 +19,8 @@ import java.util.Date;
 public class ItineraryController {
     private final ItineraryService itineraryService;
     @PostMapping("/itinerary/create")
-    public Result<?> createItinerary(@RequestParam("destination_id")Long destinationId, @RequestParam("start_time")Date time) {
-        return itineraryService.createItinerary(destinationId, time);
+    public Result<?> createItinerary(@RequestParam("destination_id")Long destinationId) {
+        return itineraryService.createItinerary(destinationId, new Date(System.currentTimeMillis()));
     }
+    // @RequestParam("start_time")Date time
 }

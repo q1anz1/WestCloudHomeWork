@@ -1,8 +1,17 @@
 server:
-  port: 8082
+  port: 8084
 spring:
   application:
-    name: itineraryservice
+    name: destination-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    openfeign:
+      httpclient:
+        enabled: true
+        max-connections-per-route: 50
+        max-connections: 200
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/west2_online_project
@@ -23,15 +32,6 @@ spring:
     multipart:
       max-file-size: 1024MB
       max-request-size: 4096MB
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
-    openfeign:
-      httpclient:
-        enabled: true
-        max-connections-per-route: 50
-        max-connections: 200
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -41,6 +41,8 @@ spring:
     listener:
       simple:
         prefetch: 1
+
+
 mybatis:
   configuration-properties:
     helperDialect: mysql

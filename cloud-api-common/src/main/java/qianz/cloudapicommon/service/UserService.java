@@ -4,6 +4,7 @@ import qianz.cloudapicommon.pojo.result.Result;
 /**
  * UserService
  * */
+
 public interface UserService {
     Result<?> register(RegisterBO registerBO);
 
