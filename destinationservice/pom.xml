@@ -48,7 +48,6 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
         </dependency>
         <!--Redis依赖-->
         <dependency>
@@ -87,6 +86,11 @@
         <dependency>
             <groupId>qianz</groupId>
             <artifactId>cloud-api-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>qianz</groupId>
+            <artifactId>frequency-spring-boot-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

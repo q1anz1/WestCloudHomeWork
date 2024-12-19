@@ -4,6 +4,8 @@ import cn.qianz.mapper.DestinationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import qianz.cloudapicommon.exception.ParamInvalidException;
+import qianz.cloudapicommon.pojo.PO.DestinationPO;
 import qianz.cloudapicommon.pojo.result.Result;
 import qianz.cloudapicommon.service.DestinationService;
 
@@ -15,9 +17,8 @@ public class DestinationServiceImpl implements DestinationService {
 
     @Override
     public Result<?> getDestination(Long id) {
-        return Result.ok("123123");
-/*        DestinationPO destinationPO = destinationMapper.selectDestinationPOById(id);
+        DestinationPO destinationPO = destinationMapper.selectDestinationPOById(id);
         if (destinationPO==null) throw new ParamInvalidException("目的地不存在");
-        return Result.ok(destinationPO);*/
+        return Result.ok(destinationPO);
     }
 }

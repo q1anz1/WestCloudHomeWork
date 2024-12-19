@@ -32,6 +32,12 @@
         <dependency>
             <groupId>qianz</groupId>
             <artifactId>cloud-api-common</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--        <dependency>
                     <groupId>com.alibaba.cloud</groupId>

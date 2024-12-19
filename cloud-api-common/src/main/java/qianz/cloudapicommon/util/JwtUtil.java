@@ -3,6 +3,7 @@ package qianz.cloudapicommon.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import qianz.cloudapicommon.exception.ParamInvalidException;
 
@@ -90,5 +91,13 @@ public class JwtUtil {
             log.error("令牌解析错误:{}", token);
             return null;
         }
+    }
+
+    public static Long getUserId(HttpServletRequest httpServletRequest) {
+        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.toLowerCase().startsWith("bearer ")) {
+            return null;
+        }
+        return getUserId(authorizationHeader.substring("bearer ".length()).trim());
     }
 }

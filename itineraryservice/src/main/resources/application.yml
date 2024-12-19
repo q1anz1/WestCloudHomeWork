@@ -2,7 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: itineraryservice
+    name: itinerary-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/west2_online_project
@@ -32,6 +32,8 @@ spring:
         enabled: true
         max-connections-per-route: 50
         max-connections: 200
+      circuitbreaker:
+        enabled: true
   rabbitmq:
     host: 127.0.0.1
     port: 5672

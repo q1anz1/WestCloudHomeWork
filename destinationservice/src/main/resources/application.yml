@@ -12,6 +12,13 @@ spring:
         enabled: true
         max-connections-per-route: 50
         max-connections: 200
+      circuitbreaker:
+        alphanumeric-ids:
+          enabled: true
+        enabled: true
+    circuitbreaker:
+      hystrix:
+        enabled: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/west2_online_project
@@ -41,8 +48,6 @@ spring:
     listener:
       simple:
         prefetch: 1
-
-
 mybatis:
   configuration-properties:
     helperDialect: mysql

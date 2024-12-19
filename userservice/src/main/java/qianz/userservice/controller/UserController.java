@@ -27,4 +27,5 @@ public class UserController {
     public Result<?> login(@RequestParam("username")String username, @RequestParam("password")String password) {
         return userService.login(username, password);
     }
+
 }
