@@ -1,12 +1,18 @@
 package qianz.frequencyspringbootstarter.spi.impl;
 
-import lombok.Data;
 import qianz.frequencyspringbootstarter.spi.FrequencyControlAlgorithm;
 
 /**
- * 频率控制算法实现类
+ *
  */
-@Data
 public class DefaultFrequencyControlAlgorithm implements FrequencyControlAlgorithm {
+    @Override
+    public String getName() {
+        return "default";
+    }
 
+    @Override
+    public boolean tryAcquire() {
+        return false;
+    }
 }

@@ -1,22 +1,55 @@
 package qianz.frequencyspringbootstarter.aop;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
+import qianz.frequencyspringbootstarter.anno.FrequencyControl;
 import qianz.frequencyspringbootstarter.config.FrequencyControlConfig;
+import qianz.frequencyspringbootstarter.exception.FrequencyControlException;
+import qianz.frequencyspringbootstarter.spi.FrequencyControlAlgorithm;
+
+import java.lang.reflect.Method;
+import java.util.ServiceLoader;
 
 /**
  * 频率控制切面
  */
 @Slf4j
 @Aspect
-@AllArgsConstructor
 public class FrequencyControlAspect {
-    private FrequencyControlConfig frequencyControlConfig;
-    @Before("@annotation(qianz.frequencyspringbootstarter.anno.FrequencyControl)")
-    public void before(JoinPoint joinPoint) {
+    private FrequencyControlAlgorithm frequencyControlAlgorithm;
 
+    public FrequencyControlAspect(FrequencyControlConfig frequencyControlConfig) {
+        ServiceLoader<FrequencyControlAlgorithm> serviceLoader = ServiceLoader.load(FrequencyControlAlgorithm.class);
+        for (FrequencyControlAlgorithm algorithm: serviceLoader) {
+            if (algorithm.getName().equals(frequencyControlConfig.getAlgorithmName())) {
+                this.frequencyControlAlgorithm = algorithm;
+            }
+        }
+        if (frequencyControlAlgorithm == null) {
+            log.warn("未找到application中所写算法，将使用token-bucket");
+            for (FrequencyControlAlgorithm algorithm: serviceLoader) {
+                if (algorithm.getName().equals("token-bucket")) {
+                    this.frequencyControlAlgorithm = algorithm;
+                }
+            }
+        }
+        if (frequencyControlAlgorithm == null) throw new RuntimeException("限流算法装配失败");
+    }
+
+    @Before("@annotation(qianz.frequencyspringbootstarter.anno.FrequencyControl) || @within(qianz.frequencyspringbootstarter.anno.FrequencyControl)")
+    public void before(JoinPoint joinPoint) {
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
+        FrequencyControl annotation = method.getAnnotation(FrequencyControl.class);
+        if (annotation == null) {
+            // 如果annotation为空，这说明注解是加在类上的
+            Class<?> declaringClass = method.getDeclaringClass();
+            annotation = declaringClass.getAnnotation(FrequencyControl.class);
+        }
+        // 判断是否被限流
+        if (!frequencyControlAlgorithm.tryAcquire()) throw new FrequencyControlException("频率控制禁止了这次访问");
     }
 }

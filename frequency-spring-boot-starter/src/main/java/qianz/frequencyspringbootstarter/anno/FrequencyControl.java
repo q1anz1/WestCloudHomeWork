@@ -12,8 +12,4 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface FrequencyControl {
-    /**
-     * 指定算法类，如果没指定，就用默认的
-     * */
-    Class<? extends DefaultFrequencyControlAlgorithm> frequencyControlAlgorithm() default DefaultFrequencyControlAlgorithm.class;
 }

@@ -3,6 +3,7 @@ package qianz.frequencyspringbootstarter.config;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import qianz.frequencyspringbootstarter.config.algorithm.TokenBucketConfig;
 
 /**
  * 频率控制配置类
@@ -11,5 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @NoArgsConstructor
 public class FrequencyControlConfig {
-    private final String algorithm = "token bucket";
+    private final String AlgorithmName = "token-bucket";
+    private final TokenBucketConfig tokenBucketConfig = new TokenBucketConfig();
 }
