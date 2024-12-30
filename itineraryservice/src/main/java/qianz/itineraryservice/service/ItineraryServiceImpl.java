@@ -1,9 +1,8 @@
 package qianz.itineraryservice.service;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import qianz.cloudapicommon.exception.ParamInvalidException;
 import qianz.cloudapicommon.pojo.PO.DestinationPO;
@@ -21,11 +20,16 @@ import java.util.Date;
 * */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class ItineraryServiceImpl implements ItineraryService {
     private final DestinationClient destinationClient;
     private final ItineraryMapper itineraryMapper;
     private final HttpServletRequest httpServletRequest;
+
+    public ItineraryServiceImpl(@Qualifier("qianz.itineraryservice.client.DestinationClient") DestinationClient destinationClient, ItineraryMapper itineraryMapper, HttpServletRequest httpServletRequest) {
+        this.destinationClient = destinationClient;
+        this.itineraryMapper = itineraryMapper;
+        this.httpServletRequest = httpServletRequest;
+    }
 
     @Override
     public Result<?> createItinerary(Long destinationId, Date time) {

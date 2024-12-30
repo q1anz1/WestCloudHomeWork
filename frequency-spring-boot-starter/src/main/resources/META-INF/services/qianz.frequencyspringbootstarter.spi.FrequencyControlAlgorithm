@@ -1,1 +1,2 @@
 qianz.frequencyspringbootstarter.spi.impl.TokenBucketAlgorithm
+qianz.frequencyspringbootstarter.spi.impl.LeakyBucketAlgorithm

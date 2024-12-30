@@ -3,6 +3,7 @@ package qianz.frequencyspringbootstarter.config;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import qianz.frequencyspringbootstarter.config.algorithm.LeakyBucketConfig;
 import qianz.frequencyspringbootstarter.config.algorithm.TokenBucketConfig;
 
 /**
@@ -14,4 +15,5 @@ import qianz.frequencyspringbootstarter.config.algorithm.TokenBucketConfig;
 public class FrequencyControlConfig {
     private final String AlgorithmName = "token-bucket";
     private final TokenBucketConfig tokenBucketConfig = new TokenBucketConfig();
+    private final LeakyBucketConfig leakyBucketConfig = new LeakyBucketConfig();
 }

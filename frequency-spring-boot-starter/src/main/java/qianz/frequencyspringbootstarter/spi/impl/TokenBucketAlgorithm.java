@@ -2,6 +2,7 @@ package qianz.frequencyspringbootstarter.spi.impl;
 
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import qianz.frequencyspringbootstarter.config.FrequencyControlConfig;
 import qianz.frequencyspringbootstarter.properties.FrequencyControlProperties;
 import qianz.frequencyspringbootstarter.spi.FrequencyControlAlgorithm;
@@ -15,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 频率控制算法实现类
  */
 @Data
+@Slf4j
 public class TokenBucketAlgorithm implements FrequencyControlAlgorithm {
     private final FrequencyControlConfig frequencyControlConfig;
     private static AtomicInteger tokens = new AtomicInteger(0);
@@ -51,7 +53,7 @@ public class TokenBucketAlgorithm implements FrequencyControlAlgorithm {
             if (currentTokens < bucketCapacity) {
                 int newTokens = Math.min(bucketCapacity, currentTokens + refillRate);
                 tokens.set(newTokens);
-                System.out.println("新增令牌，当前令牌数：" + newTokens);
+                log.info("新增令牌，当前令牌数：{}", newTokens);
             }
         }, 0, 1, TimeUnit.SECONDS);
     }

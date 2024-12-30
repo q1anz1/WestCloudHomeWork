@@ -29,14 +29,14 @@ public class FrequencyControlAspect {
             }
         }
         if (frequencyControlAlgorithm == null) {
-            log.warn("未找到application中所写算法，将使用token-bucket");
+            log.error("未找到application中所配置的算法，将使用默认的token-bucket");
             for (FrequencyControlAlgorithm algorithm: serviceLoader) {
                 if (algorithm.getName().equals("token-bucket")) {
                     this.frequencyControlAlgorithm = algorithm;
                 }
             }
         }
-        if (frequencyControlAlgorithm == null) throw new RuntimeException("限流算法装配失败");
+        if (frequencyControlAlgorithm == null) throw new RuntimeException("限流算法(包括默认算法)装配失败");
     }
 
     @Before("@annotation(qianz.frequencyspringbootstarter.anno.FrequencyControl) || @within(qianz.frequencyspringbootstarter.anno.FrequencyControl)")
