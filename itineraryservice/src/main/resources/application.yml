@@ -52,3 +52,9 @@ mybatis:
   mapper-locations: mybatis/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+frequency-control:
+  frequency-control-config:
+    algorithm-name: token-bucket
+    token-bucket-config:
+      bucket-capacity: 100
+      refill-rate: 1

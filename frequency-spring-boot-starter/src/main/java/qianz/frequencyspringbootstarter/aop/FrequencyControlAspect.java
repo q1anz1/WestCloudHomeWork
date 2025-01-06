@@ -6,8 +6,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import qianz.frequencyspringbootstarter.anno.FrequencyControl;
-import qianz.frequencyspringbootstarter.config.FrequencyControlConfig;
 import qianz.frequencyspringbootstarter.exception.FrequencyControlException;
+import qianz.frequencyspringbootstarter.properties.FrequencyControlProperties;
 import qianz.frequencyspringbootstarter.spi.FrequencyControlAlgorithm;
 
 import java.lang.reflect.Method;
@@ -21,10 +21,10 @@ import java.util.ServiceLoader;
 public class FrequencyControlAspect {
     private FrequencyControlAlgorithm frequencyControlAlgorithm;
 
-    public FrequencyControlAspect(FrequencyControlConfig frequencyControlConfig) {
+    public FrequencyControlAspect(FrequencyControlProperties frequencyControlProperties) {
         ServiceLoader<FrequencyControlAlgorithm> serviceLoader = ServiceLoader.load(FrequencyControlAlgorithm.class);
         for (FrequencyControlAlgorithm algorithm: serviceLoader) {
-            if (algorithm.getName().equals(frequencyControlConfig.getAlgorithmName())) {
+            if (algorithm.getName().equals(frequencyControlProperties.getFrequencyControlConfig().getAlgorithmName())) {
                 this.frequencyControlAlgorithm = algorithm;
             }
         }

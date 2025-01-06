@@ -2,7 +2,6 @@ package qianz.frequencyspringbootstarter.spi.impl;
 
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.Data;
-import qianz.frequencyspringbootstarter.config.FrequencyControlConfig;
 import qianz.frequencyspringbootstarter.properties.FrequencyControlProperties;
 import qianz.frequencyspringbootstarter.spi.FrequencyControlAlgorithm;
 
@@ -16,12 +15,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Data
 public class LeakyBucketAlgorithm implements FrequencyControlAlgorithm {
-    private final FrequencyControlConfig frequencyControlConfig;
+    private final FrequencyControlProperties frequencyControlProperties;
     private  final LinkedBlockingQueue<String> que;
 
     public LeakyBucketAlgorithm() {
-        this.frequencyControlConfig = SpringUtil.getBean(FrequencyControlProperties.class).getFrequencyControlConfig();
-        this.que = new LinkedBlockingQueue<>(this.frequencyControlConfig.getLeakyBucketConfig().getCapacity());
+        this.frequencyControlProperties = SpringUtil.getBean(FrequencyControlProperties.class);
+        this.que = new LinkedBlockingQueue<>(this.frequencyControlProperties.getFrequencyControlConfig().getLeakyBucketConfig().getCapacity());
         start();
     }
 
@@ -42,6 +41,6 @@ public class LeakyBucketAlgorithm implements FrequencyControlAlgorithm {
 
     private void start() {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(que::poll, 0, 1000/frequencyControlConfig.getLeakyBucketConfig().getRate(), TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(que::poll, 0, 1000/frequencyControlProperties.getFrequencyControlConfig().getLeakyBucketConfig().getRate(), TimeUnit.MILLISECONDS);
     }
 }

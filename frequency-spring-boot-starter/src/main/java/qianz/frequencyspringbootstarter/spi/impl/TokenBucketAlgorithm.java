@@ -3,7 +3,6 @@ package qianz.frequencyspringbootstarter.spi.impl;
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import qianz.frequencyspringbootstarter.config.FrequencyControlConfig;
 import qianz.frequencyspringbootstarter.properties.FrequencyControlProperties;
 import qianz.frequencyspringbootstarter.spi.FrequencyControlAlgorithm;
 
@@ -18,11 +17,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Data
 @Slf4j
 public class TokenBucketAlgorithm implements FrequencyControlAlgorithm {
-    private final FrequencyControlConfig frequencyControlConfig;
+    private final FrequencyControlProperties frequencyControlProperties;
     private static AtomicInteger tokens = new AtomicInteger(0);
 
     public TokenBucketAlgorithm() {
-        this.frequencyControlConfig = SpringUtil.getBean(FrequencyControlProperties.class).getFrequencyControlConfig();
+        this.frequencyControlProperties = SpringUtil.getBean(FrequencyControlProperties.class);
         startRefilling();
     }
 
@@ -48,8 +47,8 @@ public class TokenBucketAlgorithm implements FrequencyControlAlgorithm {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(() -> {
             int currentTokens = tokens.get();
-            int bucketCapacity = frequencyControlConfig.getTokenBucketConfig().getBucketCapacity();
-            int refillRate = frequencyControlConfig.getTokenBucketConfig().getRefillRate();
+            int bucketCapacity = frequencyControlProperties.getFrequencyControlConfig().getTokenBucketConfig().getBucketCapacity();
+            int refillRate = frequencyControlProperties.getFrequencyControlConfig().getTokenBucketConfig().getRefillRate();
             if (currentTokens < bucketCapacity) {
                 int newTokens = Math.min(bucketCapacity, currentTokens + refillRate);
                 tokens.set(newTokens);

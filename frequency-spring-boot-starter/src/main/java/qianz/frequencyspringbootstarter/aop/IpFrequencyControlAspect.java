@@ -10,8 +10,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import qianz.frequencyspringbootstarter.anno.IpFrequencyControl;
-import qianz.frequencyspringbootstarter.config.IpFrequencyControlConfig;
 import qianz.frequencyspringbootstarter.exception.FrequencyControlException;
+import qianz.frequencyspringbootstarter.properties.FrequencyControlProperties;
 import qianz.frequencyspringbootstarter.util.RedisUtil;
 
 import java.lang.reflect.Method;
@@ -24,7 +24,8 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 @AllArgsConstructor
 public class IpFrequencyControlAspect {
-    private final IpFrequencyControlConfig ipFrequencyControlConfig;
+    private final FrequencyControlProperties frequencyControlProperties;
+
     @Before("@annotation(qianz.frequencyspringbootstarter.anno.IpFrequencyControl)")
     public void before(JoinPoint joinPoint) throws Exception {
         // 获取请求参数
@@ -41,12 +42,12 @@ public class IpFrequencyControlAspect {
         // 赋值：是要用application中的默认值还是注解中指定的值
         String[] keys = annotation.key();
         int time = annotation.time();
-        if (time == -1) time = ipFrequencyControlConfig.getDefaultTime();
+        if (time == -1) time = frequencyControlProperties.getIpFrequencyControlConfig().getDefaultTime();
         int frequency = annotation.frequency();
-        if (frequency == -1) frequency = ipFrequencyControlConfig.getDefaultFrequency();
+        if (frequency == -1) frequency = frequencyControlProperties.getIpFrequencyControlConfig().getDefaultFrequency();
         TimeUnit timeUnit = annotation.timeUnit();
         if (timeUnit == TimeUnit.NANOSECONDS) {
-            timeUnit = switch (ipFrequencyControlConfig.getDefaultTimeUnit()) {
+            timeUnit = switch (frequencyControlProperties.getIpFrequencyControlConfig().getDefaultTimeUnit()) {
                 case "minute" -> TimeUnit.MINUTES;
                 case "hour" -> TimeUnit.HOURS;
                 case "day" -> TimeUnit.DAYS;

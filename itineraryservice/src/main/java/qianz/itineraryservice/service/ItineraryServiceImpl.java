@@ -3,6 +3,7 @@ package qianz.itineraryservice.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import qianz.cloudapicommon.exception.ParamInvalidException;
 import qianz.cloudapicommon.pojo.PO.DestinationPO;
@@ -14,6 +15,7 @@ import qianz.itineraryservice.client.DestinationClient;
 import qianz.itineraryservice.mapper.ItineraryMapper;
 
 import java.util.Date;
+import java.util.List;
 
 /**
 * ItineraryServiceImpl
@@ -36,8 +38,24 @@ public class ItineraryServiceImpl implements ItineraryService {
         Result<?> result = destinationClient.getDestination(destinationId);
         if (result.getBase().getCode() != 200) throw new ParamInvalidException(result.getBase().getMsg());
         DestinationPO destinationPO = (DestinationPO) result.getData();
-        ItineraryPO itineraryPO = new ItineraryPO(JwtUtil.getUserId(httpServletRequest), destinationId, destinationPO.getName(), new Date(System.currentTimeMillis()));
+        ItineraryPO itineraryPO = new ItineraryPO(JwtUtil.getUserId(httpServletRequest), destinationPO.getId(), destinationPO.getName(), new Date(System.currentTimeMillis()));
         itineraryMapper.insertItineraryPO(itineraryPO);
         return Result.ok(itineraryPO);
+    }
+
+    @Override
+    public Result<?> getItineraryList() {
+        Long userId = JwtUtil.getUserId(httpServletRequest);
+        List<ItineraryPO> itineraryList = itineraryMapper.getItineraryListByUserId(userId);
+        return Result.ok(itineraryList);
+    }
+
+    @Override
+    public Result<?> deleteItinerary(Long itineraryId) {
+        Long userId = JwtUtil.getUserId(httpServletRequest);
+        ItineraryPO itineraryPO = itineraryMapper.getItineraryByItineraryId(itineraryId);
+        if (itineraryPO == null || !itineraryPO.getUserId().equals(userId)) return Result.error(HttpStatus.FORBIDDEN.value(), "行程不存在");
+        itineraryMapper.deleteItineraryByItineraryId(itineraryId);
+        return Result.ok();
     }
 }

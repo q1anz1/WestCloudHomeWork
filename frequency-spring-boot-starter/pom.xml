@@ -10,7 +10,7 @@
     </parent>
     <groupId>qianz</groupId>
     <artifactId>frequency-spring-boot-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>frequency-spring-boot-starter</name>
     <description>frequency-spring-boot-starter</description>
 

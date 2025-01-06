@@ -88,7 +88,7 @@ public class JwtUtil {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (Exception e) {
-            log.error("令牌解析错误:{}", token);
+            log.warn("令牌解析错误:{}", token);
             return null;
         }
     }

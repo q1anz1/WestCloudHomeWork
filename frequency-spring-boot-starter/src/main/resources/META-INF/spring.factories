@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  qianz.frequencyspringbootstarter.properties.FrequencyControlAutoConfiguration

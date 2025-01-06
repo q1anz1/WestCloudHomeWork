@@ -10,4 +10,8 @@ import java.util.Date;
 
 public interface ItineraryService {
     Result<?> createItinerary(Long destinationId, Date time);
+
+    Result<?> getItineraryList();
+
+    Result<?> deleteItinerary(Long itineraryId);
 }

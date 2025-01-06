@@ -17,7 +17,7 @@ public class FrequencyControlAutoConfiguration {
      * */
     @Bean
     public IpFrequencyControlAspect ipFrequencyControlAspect(FrequencyControlProperties frequencyControlProperties) {
-        return new IpFrequencyControlAspect(frequencyControlProperties.getIpFrequencyControlConfig());
+        return new IpFrequencyControlAspect(frequencyControlProperties);
     }
 
     /**
@@ -25,6 +25,6 @@ public class FrequencyControlAutoConfiguration {
      * */
     @Bean
     public FrequencyControlAspect frequencyControlAspect(FrequencyControlProperties frequencyControlProperties) {
-        return new FrequencyControlAspect(frequencyControlProperties.getFrequencyControlConfig());
+        return new FrequencyControlAspect(frequencyControlProperties);
     }
 }

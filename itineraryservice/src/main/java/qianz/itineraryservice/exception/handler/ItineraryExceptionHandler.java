@@ -1,5 +1,6 @@
 package qianz.itineraryservice.exception.handler;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,7 +17,7 @@ import java.net.UnknownHostException;
 @RestControllerAdvice
 public class ItineraryExceptionHandler extends GlobalExceptionHandler {
     @Override
-    public Result<?> handleParamInvalidException(ParamInvalidException e) {
-        return super.handleParamInvalidException(e);
+    public Result<?> handleParamInvalidException(ParamInvalidException e, HttpServletResponse response) {
+        return super.handleParamInvalidException(e, response);
     }
 }

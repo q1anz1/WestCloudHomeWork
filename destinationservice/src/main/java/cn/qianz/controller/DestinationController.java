@@ -21,5 +21,4 @@ public class DestinationController implements DestinationSuperClient {
     public Result<?> getDestination(@PathVariable("id") Long id) {
         return destinationService.getDestination(id);
     }
-
 }
